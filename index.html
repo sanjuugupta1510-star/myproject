@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NARI SURAKSHA</title>
+    <meta name="description" content="NARI SURAKSHA – Women Safety & Emergency Response App" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <div class="brand-mark">N</div>
+          <div>
+            <p class="eyebrow">Women Safety Platform</p>
+            <h1>NARI SURAKSHA</h1>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="themeToggle" class="ghost-button" aria-label="Toggle theme">🌙</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="hero card">
+          <div class="hero-copy">
+            <p class="tagline">“Your Safety. Your Family. Always Connected.”</p>
+            <h2>Emergency response designed for real-world safety.</h2>
+          </div>
+          <div class="status-chip success" id="systemStatus">System Ready</div>
+        </section>
+
+        <div id="onboardingOverlay" class="modal overlay visible">
+          <div class="modal-card onboarding-card">
+            <div class="wizard-header">
+              <span class="step-pill">Setup Wizard</span>
+              <h3>Secure your profile</h3>
+            </div>
+
+            <div class="wizard-step active" data-step="1">
+              <div class="form-grid">
+                <label>
+                  Full Name
+                  <input type="text" id="profileName" required autocomplete="name" placeholder="Enter your full name" />
+                </label>
+                <label>
+                  Mobile Number
+                  <input type="tel" id="profilePhone" required autocomplete="tel" placeholder="Enter your mobile number" />
+                </label>
+                <label>
+                  Email
+                  <input type="email" id="profileEmail" required autocomplete="email" placeholder="Enter your email" />
+                </label>
+                <label>
+                  Blood Group
+                  <input type="text" id="profileBlood" placeholder="Optional" />
+                </label>
+              </div>
+            </div>
+
+            <div class="wizard-step" data-step="2">
+              <div class="empty-state">
+                <h4>No trusted contacts added</h4>
+                <p>Add your trusted contacts from the Contacts section after setup.</p>
+              </div>
+            </div>
+
+            <div class="wizard-step" data-step="3">
+              <div class="permission-list">
+                <div class="permission-item">
+                  <div>
+                    <strong>Location</strong>
+                    <p>Your location is only shared with trusted contacts you approve.</p>
+                  </div>
+                  <button class="toggle-yes">Allow</button>
+                </div>
+                <div class="permission-item">
+                  <div>
+                    <strong>Notifications</strong>
+                    <p>Receive emergency alerts and status updates.</p>
+                  </div>
+                  <button class="toggle-yes">Allow</button>
+                </div>
+                <div class="permission-item">
+                  <div>
+                    <strong>Phone & SMS</strong>
+                    <p>Initiate emergency calls and SMS backup when available.</p>
+                  </div>
+                  <button class="toggle-yes">Allow</button>
+                </div>
+                <div class="permission-item">
+                  <div>
+                    <strong>Contacts</strong>
+                    <p>Pick trusted people for emergency notifications and tracking.</p>
+                  </div>
+                  <button class="toggle-yes">Allow</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="wizard-actions">
+              <button type="button" id="wizardPrev" class="secondary-button hidden">Back</button>
+              <button type="button" id="wizardNext" class="primary-button">Next</button>
+            </div>
+          </div>
+        </div>
+
+        <nav class="tab-nav" aria-label="Main navigation">
+          <button class="tab-button active" data-screen="home">Home</button>
+          <button class="tab-button" data-screen="journey">Journey</button>
+          <button class="tab-button" data-screen="contacts">Contacts</button>
+          <button class="tab-button" data-screen="history">History</button>
+          <button class="tab-button" data-screen="profile">Profile</button>
+        </nav>
+
+        <section id="screen-home" class="screen active">
+          <div class="home-grid">
+            <div class="card emergency-panel">
+              <div class="status-header">
+                <div>
+                  <p class="eyebrow">Emergency status</p>
+                  <h3 id="emergencyStatusLabel">Secure & ready</h3>
+                </div>
+                <span id="statusBadge" class="status-badge success">Safe</span>
+              </div>
+
+              <button id="sosButton" class="sos-button">🚨 SOS</button>
+
+              <div class="quick-actions">
+                <button class="action-button primary" data-action="share-location">📍 Share Location</button>
+                <button class="action-button blue" data-action="safe-journey">🛡️ Safe Journey</button>
+                <button class="action-button orange" data-action="safety-timer">⏱️ Safety Timer</button>
+                <button class="action-button green" data-action="emergency-call">📞 Emergency Contact</button>
+              </div>
+            </div>
+
+            <div class="card live-panel">
+              <p class="eyebrow">Live location</p>
+              <h3 id="locationLabel">Location not enabled</h3>
+              <div class="coordinates">
+                <span>Enable location to see coordinates</span>
+                <span>Waiting for GPS</span>
+              </div>
+              <button id="enableLocationButton" class="secondary-button small" style="margin: 12px 0 10px;">Enable Live Location</button>
+              <div class="micro-map">
+                <div class="map-pin"></div>
+              </div>
+              <div class="meta-grid">
+                <div><span>Battery</span> <strong>67%</strong></div>
+                <div><span>Updated</span> <strong id="updateTime">10 seconds ago</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card compact-card">
+            <div class="section-header">
+              <h3>Trusted contacts</h3>
+              <button class="secondary-button small" data-action="add-contact">Add contact</button>
+            </div>
+            <div class="selected-contact-bar">
+              <span>Emergency recipient: <strong id="selectedContactLabel">None selected</strong></span>
+              <button id="sendSelectedAlert" class="primary-button small">Send emergency alert</button>
+            </div>
+            <div id="trustedContactsList" class="contact-list"></div>
+          </div>
+        </section>
+
+        <section id="screen-journey" class="screen">
+          <div class="card">
+            <div class="section-header">
+              <h3>Safe Journey</h3>
+              <button id="startJourney" class="primary-button small">Start Journey</button>
+            </div>
+
+            <div class="journey-form">
+              <label>
+                From
+                <input type="text" value="Office" />
+              </label>
+              <label>
+                To
+                <input type="text" value="Home" />
+              </label>
+            </div>
+
+            <div class="route-card">
+              <div class="route-summary">
+                <span>Route progress</span>
+                <strong>68%</strong>
+              </div>
+              <div class="route-bar"><span></span></div>
+              <div class="route-meta">
+                <span>ETA: 18 min</span>
+                <span>Speed: 32 km/h</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="screen-contacts" class="screen">
+          <div class="card contact-panel">
+            <div class="section-header">
+              <h3>Emergency contacts</h3>
+              <button class="secondary-button small" data-action="add-contact">+ Add</button>
+            </div>
+            <div id="contactDashboard" class="contact-list detail"></div>
+          </div>
+        </section>
+
+        <section id="screen-history" class="screen">
+          <div class="card">
+            <div class="section-header">
+              <h3>Emergency history</h3>
+              <button id="exportHistory" class="secondary-button small">Export</button>
+            </div>
+            <div id="historyList" class="history-list"></div>
+          </div>
+        </section>
+
+        <section id="screen-profile" class="screen">
+          <div class="card profile-grid">
+            <div class="profile-top">
+              <div class="avatar" id="profileAvatar">--</div>
+              <div>
+                <h3 id="profileDisplayName">Your profile</h3>
+                <p>Safety Member</p>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h4>Location Sharing</h4>
+              <div class="segmented" id="sharingOptions">
+                <button class="active" data-sharing="off">OFF</button>
+                <button data-sharing="journey">Only during Safe Journey</button>
+                <button data-sharing="sos">Only during SOS</button>
+                <button data-sharing="always">Always</button>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h4>Emergency protection</h4>
+              <label class="permission-item">
+                <span>
+                  <strong>Two-tap emergency mode</strong>
+                  <p>Two rapid taps anywhere in the app trigger SOS and lock this screen.</p>
+                </span>
+                <input type="checkbox" id="doubleTapEmergency" />
+              </label>
+              <button type="button" id="lockAppButton" class="secondary-button small">Lock app now</button>
+              <p id="lockStatus" class="status-help">When locked, emergency actions remain available but other controls are hidden.</p>
+            </div>
+
+            <div class="settings-group">
+              <h4>Security</h4>
+              <ul class="check-list">
+                <li>End-to-end secure alerts</li>
+                <li>Encrypted local session</li>
+                <li>JWT and OTP enabled</li>
+                <li>Consent-based trusted contacts</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <div id="appLockOverlay" class="modal overlay" aria-hidden="true">
+        <div class="modal-card lock-card">
+          <span class="step-pill">Emergency lock</span>
+          <h3>Safety mode is active</h3>
+          <p>Your emergency contacts can still be reached. Unlock to use the rest of the app.</p>
+          <button type="button" id="unlockAppButton" class="primary-button">Unlock app</button>
+        </div>
+      </div>
+
+      <aside class="family-panel card">
+        <div class="section-header">
+          <h3>Trusted Contact Dashboard</h3>
+          <span class="status-chip neutral">Live</span>
+        </div>
+
+        <div class="alert-box">
+          <h4>🚨 NARI SURAKSHA ALERT</h4>
+          <p id="dashboardAlertText">Your emergency status will appear here</p>
+          <div class="location-box">
+            <strong id="dashboardLocation">📍 Location not enabled</strong>
+          </div>
+          <ul>
+            <li>Last updated: 10 seconds ago</li>
+            <li>Battery: 54%</li>
+            <li>Emergency status: Active</li>
+          </ul>
+          <div class="alert-actions">
+            <button data-action="trigger-sos" class="primary-button small">🚨 SOS</button>
+            <button data-action="share-location" class="secondary-button small">📍 Share Location</button>
+            <button id="openLiveLocation" class="primary-button small">Open Live Location</button>
+            <button id="callContact" class="secondary-button small">Call</button>
+            <button id="navigateToLocation" class="secondary-button small">Navigate</button>
+          </div>
+          <p id="callStatus" class="call-status" role="status" aria-live="polite" hidden></p>
+        </div>
+      </aside>
+
+      <aside class="admin-panel card">
+        <div class="section-header">
+          <h3>Admin Dashboard</h3>
+          <span class="status-chip blue">Monitoring</span>
+        </div>
+        <div class="metrics-grid">
+          <div><span>Registered users</span><strong>1,284</strong></div>
+          <div><span>Active sessions</span><strong>28</strong></div>
+          <div><span>SOS events</span><strong>134</strong></div>
+          <div><span>Safety timers</span><strong>96</strong></div>
+        </div>
+      </aside>
+    </div>
+
+    <div id="contactModal" class="modal overlay" aria-hidden="true">
+      <div class="modal-card">
+        <div class="wizard-header">
+          <span class="step-pill">Trusted contact</span>
+          <h3>Add contact details</h3>
+        </div>
+        <form id="contactForm" class="form-grid compact">
+          <label>Name <input id="contactName" required autocomplete="name" /></label>
+          <label>Relation <input id="contactRelation" required /></label>
+          <label>Mobile number <input id="contactPhone" type="tel" required placeholder="+91 98765 43210" autocomplete="tel" /></label>
+          <div class="wizard-actions">
+            <button type="button" id="cancelContact" class="secondary-button">Cancel</button>
+            <button type="button" id="saveContactButton" class="primary-button">Save contact</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="script.js?v=16"></script>
+  </body>
+</html>
